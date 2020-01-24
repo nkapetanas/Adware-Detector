@@ -10,6 +10,7 @@ from sklearn.metrics import recall_score
 from sklearn.model_selection import KFold
 import pytest
 from sklearn.preprocessing import LabelEncoder
+import utils
 
 DATASET_PATH = 'C:/Users/Delta/PycharmProjects/Adware-Detector/dataset/TotalFeatures-ISCXFlowMeter.csv'
 
@@ -29,14 +30,15 @@ def calculate_metrics(y_actual, y_predicted):
 
 df = read_csv_file(DATASET_PATH)
 
-y = df['calss']
-X_train = df.loc[:, df.columns != 'calss']
-# X = file['duration','total_fpackets','total_bpackets','total_fpktl','total_bpktl','min_fpktl','min_bpktl','max_fpktl','max_bpktl','mean_fpktl','mean_bpktl','std_fpktl','std_bpktl','total_fiat',
-#          'total_biat','min_fiat','min_biat','max_fiat','max_biat','mean_fiat','mean_biat','std_fiat','std_biat','fpsh_cnt','bpsh_cnt',furg_cnt,burg_cnt,total_fhlen,total_bhlen,fPktsPerSecond,bPktsPerSecond,flowPktsPerSecond,flowBytesPerSecond,min_flowpktl,max_flowpktl,mean_flowpktl,std_flowpktl,min_flowiat,max_flowiat,mean_flowiat,std_flowiat,flow_fin,flow_syn,flow_rst,flow_psh,flow_ack,flow_urg,flow_cwr,flow_ece,downUpRatio,avgPacketSize,fAvgSegmentSize,fHeaderBytes,fAvgBytesPerBulk,fAvgPacketsPerBulk,fAvgBulkRate,bVarianceDataBytes,bAvgSegmentSize,bAvgBytesPerBulk,bAvgPacketsPerBulk,bAvgBulkRate,sflow_fpacket,sflow_fbytes,sflow_bpacket,sflow_bbytes,min_active,mean_active,max_active,std_active,min_idle,mean_idle,max_idle,std_idle,FFNEPD,Init_Win_bytes_forward,Init_Win_bytes_backward,RRT_samples_clnt,Act_data_pkt_forward,min_seg_size_forward]
-
+y = df['class']
+X_train = df.loc[:, df.columns != 'class']
 
 y_train = y.replace({'benign': 0, 'asware': 1, 'GeneralMalware': 1})
 # X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_size=0.70, test_size=0.30)
+
+columns_name_list = list(df.columns.values)
+utils.field_name_changer(df, columns_name_list)
+
 fold = 0
 
 
