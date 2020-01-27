@@ -18,3 +18,13 @@ def bucketizer(df, columns_name_list):
 
         buckets = np.arange(number_of_buckets, dtype=np.float).tolist()
         # TODO add the binning
+def binning(df, columns_name_list, quantiles_num):
+    for value in columns_name_list[:-1]:
+        if df[value].nunique() == 1:
+            df.drop([value], axis=1)
+        else:
+            df[value] = pd.qcut(df[value], q=quantiles_num, duplicates='drop')
+
+def word_frequencies(df, columns_name_list):
+    for value in columns_name_list[:-1]:
+        df[value] = df[value].str.split(expand=True).stack().value_counts()
